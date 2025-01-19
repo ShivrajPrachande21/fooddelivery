@@ -1,37 +1,44 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import './fooditem.css';
 import { assets } from '../../assets/assets';
 import { Foodcontext } from '../../context/Foodcontext';
 
 const FoodItem = () => {
-    const {categorey, food_list,cartItems,setCartItems,addToCart,removeFromCart } = useContext(Foodcontext);
-   
+    const {
+        categorey,
+        food_list,
+        cartItems,
+        setCartItems,
+        addToCart,
+        removeFromCart
+    } = useContext(Foodcontext);
 
-    
-    const filteredFoodList = categorey === 'All'
-    ? food_list
-    : food_list.filter(item => item.category == categorey);
+    const filteredFoodList =
+        categorey === 'All'
+            ? food_list
+            : food_list.filter(item => item.category === categorey);
+
     return (
-        <>{console.log('dad0',filteredFoodList)} 
-            {filteredFoodList.map((item, index) => (
-               
-            
-                    <div className='food-item' key={index}>
+        <>
+            {filteredFoodList.map(item => (
+                <div className="food-item" key={item._id}>
                     <div className="food-item-image-container">
-                        <img className='food-item-img' src={item.image} alt={item.name} />
+                        <img
+                            className="food-item-img"
+                            src={item.image}
+                            alt={item.name}
+                        />
 
-                        {cartItems[index] > 0 ? (
-                            <div className='food-item-counter'>
-                                
-                             
+                        {cartItems[item._id] > 0 ? (
+                            <div className="food-item-counter">
                                 <img
-                                    onClick={() =>removeFromCart(index)}
+                                    onClick={() => removeFromCart(item._id)}
                                     src={assets.remove_icon_red}
                                     alt="Remove"
                                 />
-                                   <p>{cartItems[index]}</p>
+                                <p>{cartItems[item._id]}</p>
                                 <img
-                                    onClick={() =>  addToCart(index)}
+                                    onClick={() => addToCart(item._id)}
                                     src={assets.add_icon_green}
                                     alt="Add"
                                 />
@@ -39,9 +46,9 @@ const FoodItem = () => {
                         ) : (
                             <img
                                 src={assets.add_icon_white}
-                                className='add'
+                                className="add"
                                 alt="Add Icon"
-                                onClick={() => addToCart(index)}
+                                onClick={() => addToCart(item._id)}
                             />
                         )}
                     </div>
@@ -50,12 +57,12 @@ const FoodItem = () => {
                             <p>{item.name}</p>
                             <img src={assets.rating_starts} alt="Rating" />
                         </div>
-                        <p className="food-item-description">{item.description}</p>
+                        <p className="food-item-description">
+                            {item.description}
+                        </p>
                         <p className="food-item-price">${item.price}</p>
                     </div>
                 </div>
-                
-                
             ))}
         </>
     );
